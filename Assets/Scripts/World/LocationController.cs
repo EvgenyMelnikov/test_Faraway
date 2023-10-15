@@ -26,7 +26,6 @@ public class LocationController : ILateTickable, IInitializable
         var platform = _world.CreateActor<Platform>().Transform;
         platform.SetParent( _placeholder.Container);
         platform.localPosition = new Vector3(0, 0, 0);
-        platform.GetComponent<SpriteRenderer>().color = Random.ColorHSV();
         _platforms.Add(platform);
         
         var itemSize = platform.GetComponent<BoxCollider2D>().size;
@@ -37,7 +36,6 @@ public class LocationController : ILateTickable, IInitializable
             var tr = _world.CreateActor<Platform>().Transform;
             tr.SetParent( _placeholder.Container);
             tr.localPosition = new Vector3(itemSize.x * -i, 0, 0);
-            tr.GetComponent<SpriteRenderer>().color = Random.ColorHSV();
             _platforms.Add(tr);
         }
     }

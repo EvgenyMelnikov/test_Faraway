@@ -7,12 +7,19 @@ using UnityEngine;
 public class MovementSystem : ISystem
 {
     private Rigidbody2D _rigidbody2D;
+    private Animator _animator;
     private Entity _owner;
+    
+    private static readonly int IsMove = Animator.StringToHash("isRun");
     
     public void OnInit(Entity owner)
     {
         _owner = owner;
-        _rigidbody2D = owner.GetComponent<PlayerView>().GetComponent<Rigidbody2D>();
+        var view = owner.GetComponent<PlayerView>();
+        _animator = view.Animator;
+        _rigidbody2D = view.GetComponent<Rigidbody2D>();
+        
+        _animator.SetBool(IsMove, true);
     }
 
     public void OnUpdate(float deltaTime)
@@ -29,5 +36,6 @@ public class MovementSystem : ISystem
     public void OnDispose()
     {
         _rigidbody2D.velocity = Vector2.zero;
+        _animator.SetBool(IsMove, false);
     }
 }

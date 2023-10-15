@@ -7,16 +7,21 @@ using UnityEngine;
 public class FlySystem : ISystem
 {
     private Rigidbody2D _rigidbody2D;
+    private Animator _animator;
     private Entity _owner;
 
-    private float _time;
-    
+    private static readonly int IsJump = Animator.StringToHash("isJump");
+
     public void OnInit(Entity owner)
     {
         _owner = owner;
-        _rigidbody2D = owner.GetComponent<PlayerView>().GetComponent<Rigidbody2D>();
+        var view = owner.GetComponent<PlayerView>();
+        _animator = view.Animator;
+        _rigidbody2D = view.GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = 0;
-        _rigidbody2D.AddForce(Vector2.up * 20);
+        _rigidbody2D.AddForce(Vector2.up * 10);
+        
+        _animator.SetBool(IsJump, true);
     }
 
     public void OnUpdate(float deltaTime)
@@ -33,5 +38,6 @@ public class FlySystem : ISystem
     public void OnDispose()
     {
         _rigidbody2D.gravityScale = 1;
+        _animator.SetBool(IsJump, false);
     }
 }
